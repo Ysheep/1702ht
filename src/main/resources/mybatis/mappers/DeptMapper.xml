@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.kye.ht.mapper.DeptMapper">
+	<resultMap type="Dept" id="deptRM">
+		<id property="deptId" column="dept_id"/>
+		<result property="parentId" column="parent_id"/>
+		<result property="deptName" column="dept_name"/>
+		<result property="orderNo" column="order_no"/>
+		<result property="state" column="state"/>
+		<result property="createBy" column="create_by"/>
+		<result property="createDept" column="create_dept"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateBy" column="update_by"/>
+		<result property="updateTime" column="update_time"/>
+		
+		<!-- 配置部门 和 父部门的 一对一关系 -->
+		<association property="parent" javaType="Dept">
+			<id property="deptId" column="p_id"/>
+			<result property="deptName" column="p_name"/>
+		</association>
+	</resultMap>
+	
+	<select id="findAllDept" resultMap="deptRM">
+		select dept_id,dept_name,p_id,p_name,state  
+		from dept_p left join
+			(select 
+				dept_id as p_id,
+				dept_name as p_name 
+			from dept_p)p 
+			on dept_p.parent_id = p.p_id
+	</select>
+</mapper> 
