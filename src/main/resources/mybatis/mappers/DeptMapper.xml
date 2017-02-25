@@ -33,4 +33,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			from dept_p)p 
 			on dept_p.parent_id = p.p_id
 	</select>
+	
+	<insert id="insert"  parameterType="Dept">
+		insert
+		into dept_p 
+		(dept_id,dept_name,parent_id,state,create_time,update_time)
+		values
+		(#{deptId},#{deptName},#{parentId},#{state},#{createTime},#{updateTime})
+	</insert>
+	
+	<select id="findDeptById" resultMap="deptRM" parameterType="string">
+		SELECT
+			*
+		FROM
+			dept_p
+		WHERE
+			dept_id = #{deptId}
+	</select>
+	
+	
+	<update id="update" parameterType="Dept">
+		UPDATE
+			dept_p
+		<set>
+			<if test="deptName != null">dept_name = #{deptName},</if>
+			<if test="parentId != null">parent_id = #{parentId},</if>
+			<if test="state != null">state=#{state},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+		</set>
+		where dept_id = #{deptId}
+	</update>
+	
+	
 </mapper> 

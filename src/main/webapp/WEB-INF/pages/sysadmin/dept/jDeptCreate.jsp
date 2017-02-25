@@ -40,8 +40,8 @@
 	-->
 	父部门:<select name="parentId">
 		<option>--请选择--</option>
-		<c:forEach items="${dataList }" var="dept">
-			<option value="${dept.deptId}">${dept.deptName }</option>
+		<c:forEach items="${dataList}" var="dept">
+			<option value="${dept.deptId}">${dept.deptName}</option>
 		</c:forEach>
 	</select>
 </table>

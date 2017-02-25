@@ -42,6 +42,9 @@ public class DeptController {
 	@RequestMapping("/sysadmin/dept/tocreate")
 	public String toCreate(Model model){
 		List<Dept> dataList = deptService.findAllDept();
+		for(Dept list:dataList){
+			System.out.println(list.getDeptId());
+		}
 		model.addAttribute("dataList",dataList);
 		return "/sysadmin/dept/jDeptCreate";
 	}
@@ -51,10 +54,41 @@ public class DeptController {
 	 * @return
 	 */
 	@RequestMapping("/sysadmin/dept/insert")
-	public String save(String deptName,String parentId) {
-		System.out.println(deptName+","+parentId);
-		return null;
+//	public String save(String deptName,String parentId) {
+//		System.out.println(deptName+","+parentId);
+	// deptId  和 parentId  是Dept的私有属性  可以通过封装讲Dept对象传送过去
+	public String save(Dept dept){
+		deptService.insert(dept);
+//		Dept dept = deptService.findDeptById(parentId);
+//		deptService.save(deptName,dept.getDeptName());
+		return "forward:/sysadmin/dept/list";
 	}
 	
+	/**
+	 * 这个方法是转向更新页面  对应的后台请求路径 /sysadmin/dept/toupdate
+	 * WEB-INF/pages/sysadmin/dept/jDeptUpdate.jsp
+	 * @return
+	 * 1.要接受主键值
+	 * 2.数据回显，根据主键值查出对应部门信息，
+	 * 3.需要父部门的信息，所以要传所有父部门的信息
+	 */
+	@RequestMapping("/sysadmin/dept/toupdate")
+	public String toUpdate(String deptId,Model model){
+		Dept dept = deptService.findDeptById(deptId);
+		List<Dept> dataList = deptService.findAllDept();
+		model.addAttribute("dept", dept);
+		model.addAttribute("dataList", dataList);
+		return "/sysadmin/dept/jDeptUpdate";
+	}
+	
+	/**
+	 * 该方法是用于保存用户修改的信息  对应的后台请求路径 /sysadmin/dept/update
+	 * @return
+	 */
+	@RequestMapping(" /sysadmin/dept/update")
+	public String update(Dept dept) {
+		deptService.update(dept);
+		return "forward:/sysadmin/dept/list";
+	}
 	
 }

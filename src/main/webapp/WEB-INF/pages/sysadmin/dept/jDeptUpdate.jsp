@@ -7,7 +7,8 @@
 
 <body>
 <form name="icform" method="post">
-	<input type="text" name="id" value="${dept.id}"/>
+	<!--这里之所以要进行部门的取值，目的是在更新保存的时候将当前部门的主键值带过去 -->
+	<input type="hidden" name="deptId" value="${dept.deptId}"/>
 
 <div id="menubar">
 <div id="middleMenubar">
@@ -33,7 +34,14 @@
 <div class="eXtremeTable" >
 <table id="ec_table" class="tableRegion" width="98%" >
 	<!-- 更新部门名称、上级部门 -->
-	
+	部门信息<input type="text" name="deptName" value="${dept.deptName }">
+	父部门信息
+	<select name="parentId">
+		<option>--请选择--</option>
+		<c:forEach items="${dataList }" var="data">
+			<option value="${data.deptId}">${data.deptName}</option>
+		</c:forEach>
+	</select>
 </table>
 </div>
  
